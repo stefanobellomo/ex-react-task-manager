@@ -11,7 +11,7 @@ export default function Header() {
                             Task List
                         </NavLink>
                     </div>
-                    <div classclassName="nav-item">
+                    <div className="nav-item">
                         <NavLink to='/addtask' className="navbar nav-link mx-2">
                             Add task
                         </NavLink>
