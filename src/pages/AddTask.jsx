@@ -8,10 +8,23 @@ export default function AddTask() {
 
     const symbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~";
 
+
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(title);
+
+        const description = descriptionRef.current.value
+        const status = statusRef.current.value
+
+        if (titleValidation || description === "") {
+            console.log("compila tutti i campi");
+        } else {
+            console.log(`titolo task: ${title} 
+                descrizione task: ${description} 
+                stato: ${status}`)
+        }
     }
+
+    const titleValidation = title.trim() === "" || [...title].some(ch => symbols.includes(ch))
 
     return (
         <>
@@ -25,6 +38,7 @@ export default function AddTask() {
                             id="exampleFormControlInput1"
                             value={title}
                             onChange={e => setTitle(e.target.value)} />
+                        <span style={{ color: titleValidation ? "red" : "green" }}>{!titleValidation ? "task valida" : "caratteri speciali e campo vuoto non ammessi"}</span>
                     </div>
                     <div className="form-group">
                         <label htmlFor="exampleFormControlTextarea1">Description task</label>
