@@ -7,18 +7,17 @@ export default function Header() {
             <div className="container">
                 <div className="navbar-nav me-auto mt-2 mt-lg-0">
                     <div className="nav-item">
-                        <NavLink to='/' className="navbar mx-2">
+                        <NavLink to='/' className="navbar nav-link mx-2">
                             Task List
                         </NavLink>
                     </div>
                     <div classclassName="nav-item">
-                        <NavLink to='/addtask' className="navbar mx-2">
+                        <NavLink to='/addtask' className="navbar nav-link mx-2">
                             Add task
                         </NavLink>
                     </div>
                 </div>
             </div>
         </nav>
-
     )
 }
