@@ -1,2 +1,7 @@
 @import url(bootstrap);
 @import url(bootstrap-icons);
+
+.navbar {
+  text-decoration: none;
+  /* color: ; */
+}
