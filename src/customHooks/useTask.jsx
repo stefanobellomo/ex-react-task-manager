@@ -6,26 +6,41 @@ export default function useTask() {
     const [tasks, setTasks] = useState([])
 
     useEffect(() => {
-        try {
-            fetch(`${apiurl}/tasks`)
-                .then(res => res.json())
-                .then(data => setTasks(data))
-                .catch((err) => console.error("api errata", err))
-        } catch (error) {
-            console.error('chiamata fallita')
-        }
+        fetch(`${apiurl}/tasks`)
+            .then(res => res.json())
+            .then(data => setTasks(data))
+            .catch((err) => console.error("api errata", err))
     }, [])
 
     console.log(tasks);
 
-    function addTask() {
-        console.log("task aggiunta");
+    async function addTask({ title, description, status }) {
+        try {
+            const res = await fetch(`${apiurl}/tasks`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title, description, status }),
+            });
 
+            const data = await res.json()
+
+            if (!data.success) {
+                throw new Error(data.message || "Errore durante la creazione della task");
+            }
+
+            setTasks(prev => [...prev, data.task])
+            return data.task
+        } catch (err) {
+            console.error("Errore POST /tasks:", err);
+            throw err;
+        }
     }
+
     function removeTask() {
         console.log("task rimossa");
 
     }
+
     function updateTask() {
         console.log("task aggiunta");
 
