@@ -56,9 +56,26 @@ export default function useTask() {
         }
     }
 
-    function updateTask() {
-        console.log("task aggiunta");
+    async function updateTask(updatedTask) {
+        try {
+            const res = await fetch(`${apiurl}/tasks/${updatedTask}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedTask),
+            });
 
+            const data = await res.json()
+
+            if (!data.success) {
+                throw new Error(data.message || "Errore durante la modifica della task");
+            }
+
+            setTasks(prev => prev.map(t => String(t.id) === String(updateTask) ? data.task : t))
+            return data.task
+        } catch (err) {
+            console.error("Errore PUT /tasks/:id:", err);
+            throw err;
+        }
     }
 
     return { tasks, setTasks, addTask, removeTask, updateTask }
