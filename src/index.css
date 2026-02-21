@@ -1,2 +1,47 @@
 @import url(bootstrap);
 @import url(bootstrap-icons);
+
+/* .modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+} */
+
+.modal-container {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.modal {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    min-width: 300px;
+    position: relative;
+    z-index: 100000;
+    display: block;
+    width: 100%;
+    max-width: 520px;
+    max-height: 20vh;
+    overflow: auto;
+    box-sizing: border-box;
+}
