@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo } from "react"
+import { useContext, useState, useMemo, useEffect } from "react"
 import { GlobalContext } from "../context/GlobalContext"
 import TaskRow from "../components/TaskRow"
 
@@ -6,6 +6,16 @@ export default function TaskList() {
 
     const [sortBy, setSortBy] = useState("createdAt")
     const [sortOrder, setSortOrder] = useState(1)
+    const [searchQuery, setSearchQuery] = useState("")
+    const [debouncedQuery, setDebouncedQuery] = useState("");
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedQuery(searchQuery);
+        }, 750);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
 
     const { tasks } = useContext(GlobalContext)
 
@@ -19,7 +29,12 @@ export default function TaskList() {
     }
 
     const sortedTasks = useMemo(() => {
-        const copy = [...tasks];
+
+        const query = debouncedQuery.trim().toLowerCase()
+
+        const filteredTasks = tasks.filter(t => t.title.toLowerCase().includes(query))
+
+        const copy = [...filteredTasks];
 
         const statusOrder = { "To do": 0, "Doing": 1, "Done": 2 };
 
@@ -38,11 +53,14 @@ export default function TaskList() {
         });
 
         return copy;
-    }, [tasks, sortBy, sortOrder]);
+    }, [tasks, sortBy, sortOrder, debouncedQuery]);
 
 
     return (
         <div className="container">
+            <div className="p-3">
+                <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="cerca task..." />
+            </div>
             <table className="table" style={{ width: "100%" }}>
                 <thead>
                     <tr>
